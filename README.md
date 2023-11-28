@@ -5,7 +5,7 @@ A shared spatial topography links the functional connectome correlates of cocain
 ================
 ------------------------------------------------------------------------
 
-## Contents
+## contents
 
 - [background](#background)
 - [reference](#reference)
