@@ -7,21 +7,21 @@ A shared spatial topography links the functional connectome correlates of cocain
 
 ## Contents
 
-- [Background](#background)
-- [Reference](#reference)
-- [Code Release](#code-release)
-- [Data](#data)
-- [Atlas](#atlas)
-- [Questions](#questions)
+- [background](#background)
+- [reference](#reference)
+- [code release](#code-release)
+- [data](#data)
+- [atlas](#atlas)
+- [questions](#questions)
 
 ------------------------------------------------------------------------
 
-## Background
+## background
 
 
 ------------------------------------------------------------------------
 
-## Reference
+## reference
 
 For usage of the ***manuscript***, please cite:
 - **Ricard J.A.**, Labache L., Segal A., Dhamala E., Cocuzza C.V., Jones G., Yip S., Chopra S., Holmes A.J. (2023)
@@ -30,24 +30,24 @@ For usage of the ***manuscript***, please cite:
 
 ------------------------------------------------------------------------
 
-## Code Release
+## code release
 
 
 
 ------------------------------------------------------------------------
 
-## Data
+## data
 
 
 
 ------------------------------------------------------------------------
 
-## Atlas Used
+## atlas
 
 
 
 ------------------------------------------------------------------------
 
-## Questions
+## questions
 
 Please contact me (Jocelyn A. Ricard) at ricard [at] stanford [dot] edu
