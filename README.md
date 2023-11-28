@@ -1,4 +1,4 @@
-# cocaine-use-disorder-receptor-density
+
 
 
 A shared spatial topography links the functional connectome correlates of cocaine use disorder and dopamine D2/3 receptor densities.
