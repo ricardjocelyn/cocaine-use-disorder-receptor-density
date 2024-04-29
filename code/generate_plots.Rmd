@@ -1,0 +1,141 @@
+---
+title: "SUDMEXCON Plotting"
+author: "Sidhant Chopra, Loïc Labache, Jocelyn Ricard"
+date: "2023-04-19"
+output: html_document
+---
+
+```{r get bin matrix and data checks}
+setwd
+labels <- read.csv("/Users/jocelynricard/Desktop/sudmex_230823/figures_041923-OG/figures_041923/data/Schaefer400_17networks_FSLMNI_2m_TianSubCortex_S2_3T_fullBrain.csv")
+
+
+#total
+nbr_output <- readRDS("/Users/jocelynricard/Desktop/sudmex_230823/data/nbs_result05_covars_excludeFD_SchaeferTian_230824.rds")
+nbs_05_sig <- array(0, rep(nrow(labels),2)) # make n x n matrix 
+nbs_05_sig[nbr_output$components$group[,2:3]] <- 1 # add 1 at ever sig connection part of the NBS network
+nbs_05_sig <- nbs_05_sig+t(nbs_05_sig) #make symetric
+isSymmetric.matrix(nbs_05_sig) #check
+row.names(nbs_05_sig) <- 1:nrow(labels)
+
+#pos 
+pos_bin <- read.csv("/Users/jocelynricard/Desktop/sudmex_230823/data/avg_masked_Positive_covars_fd_231024.csv")[,-1]
+
+#neg
+neg_bin <- read.csv("/Users/jocelynricard/Desktop/sudmex_230823/data/avg_masked_Negative_covars_fd_231024.csv")[,-1]
+
+#check that nbs comp == pos+neg
+pos_neg <- pos_bin+neg_bin
+all.equal(as.matrix(nbs_05_sig), as.matrix(pos_neg)) #no differences apart from dim names.
+```
+
+
+
+```{r classify into networks}
+source("/Users/jocelynricard/Desktop/sudmex_230823/figures_041923-OG/figures_041923/scripts/functions/plotClassifiedEdges.R")
+PCE_pos <- plotClassifiedEdges(adj = pos_bin[labels$new_order,labels$new_order], 
+                               ids = labels$Network_Split_number[labels$new_order], 
+                               labels = unique(labels$Network_split[labels$new_order])) 
+
+
+PCE_neg <- plotClassifiedEdges(adj = neg_bin[labels$new_order,labels$new_order], 
+                               ids = labels$Network_Split_number[labels$new_order], 
+                               labels = unique(labels$Network_split[labels$new_order])) 
+
+```
+
+```{r plot into heat maps - pos, fig.height=9, fig.width=9}
+library(ggplot2)
+source("/Users/jocelynricard/Desktop/sudmex_230823/figures_041923-OG/figures_041923/scripts/functions/makeNetworkMatrix2.R")
+pos_plot <- makeNetworkMatrix2(PCE_pos[[3]], PCE_pos[[1]], 
+                               min2 = min(PCE_pos[[1]],PCE_neg[[1]]),
+                               min1 = min(PCE_pos[[3]],PCE_neg[[3]]),
+                               max2 = max(PCE_pos[[1]],PCE_neg[[1]]),
+                               max1 = max(PCE_pos[[3]],PCE_neg[[3]]), 
+                               pal = pals::brewer.reds(100))
+
+ggplot2::ggsave(filename =  "/Users/jocelynricard/Desktop/sudmex_230823/figures_041923-OG/figures_041923/output/network_plot_pos_fd.svg", pos_plot, device = 'svg')
+```
+
+```{r, plot into heat maps - neg, fig.height=9, fig.width=9}
+
+neg_plot <- makeNetworkMatrix2(PCE_neg[[3]], PCE_neg[[1]], 
+                               min2 = min(PCE_pos[[1]],PCE_neg[[1]]),
+                               min1 = min(PCE_pos[[3]],PCE_neg[[3]]),
+                               max2 = max(PCE_pos[[1]],PCE_neg[[1]]),
+                               max1 = max(PCE_pos[[3]],PCE_neg[[3]]), 
+                               pal = pals::brewer.blues(100))
+
+ggplot2::ggsave(filename =  "/Users/jocelynricard/Desktop/sudmex_230823/figures_041923-OG/figures_041923/output/network_plot_neg_fd.svg", neg_plot, device = 'svg')
+
+```
+```{r map degree onto brain, eval=FALSE}
+source("figures_041923/scripts/functions/plot_on_brain_pysurf.R")
+degree_pos <- rowSums(pos_bin)
+degree_neg <- rowSums(neg_bin)
+
+#Note, the ordering for this plotting function should be Left Cortex, Right Cortex, Left Subcortex, Right Subcortex. So this should matchin the original ordering. 
+
+#uses Schaefer2018_400Parcels_7Networks_order.annot for cortical parcels and Tian Scale 2 for subcortical
+
+
+neg05 <- plot_on_brain_pysurf(plot_vector = degree_neg,
+                              colourscale = "Blues", 
+                              no_subcortex = F, 
+                              surf = "inflated", 
+                              diverging = F,
+                              cb.grad=pals::brewer.blues(100),
+                              min = min(degree_neg,degree_pos),
+                              max = max(degree_neg,degree_pos), add.cb = T)
+
+image_write(neg05, 'figures_041923/output/nbs05_degree_on_brain_neg.png')
+
+pos05 <- plot_on_brain_pysurf(plot_vector = degree_pos,
+                              colourscale = "Reds", 
+                              no_subcortex = F, 
+                              surf = "inflated", 
+                              diverging = F,
+                              cb.grad=pals::brewer.reds(100),
+                              min = min(degree_neg,degree_pos),
+                              max = max(degree_neg,degree_pos), add.cb = T)
+image_write(pos05, 'figures_041923/output/nbs05_degree_on_brain_pos.png')
+#image_append(c(neg05, pos05), stack = T)
+
+```
+
+
+```{r Plotting DC for each of the clusters on brain, eval=FALSE}
+c1_pos <- read.csv("figures_041923/data/cluster_1_DC_pos.csv")[,2]
+c1_neg <- abs(read.csv("figures_041923/data/cluster_1_DC_neg.csv")[,2]) 
+c2_pos <- read.csv("figures_041923/data/cluster_2_DC_pos.csv")[,2]
+c2_neg <- abs(read.csv("figures_041923/data/cluster_2_DC_neg.csv")[,2])
+
+plotlist <- list(c1_pos,c1_neg, c2_pos, c2_neg)
+namelist <- c('c1_pos','c1_neg', 'c2_pos', 'c2_neg')
+
+for (p in 1:length(plotlist)) { 
+  
+  if(p == 1 | p ==3) {
+    colourscale="Reds"
+    cb.grad=pals::brewer.reds(100)
+  } else {
+    colourscale="Blues"
+    cb.grad=pals::brewer.blues(100)
+  }
+  
+  plot <-  plot_on_brain_pysurf(plot_vector = plotlist[[p]],
+                                colourscale = colourscale, 
+                                no_subcortex = F, 
+                                surf = "inflated", 
+                                diverging = F,
+                                cb.grad=cb.grad,
+                                min = min(unlist(plotlist)),
+                                max = max(unlist(plotlist)), add.cb = T)
+  
+  image_write(plot,  paste0('figures_041923/output/',namelist[p],'_DC_on_brain.png'))
+}
+
+
+```
+
+
