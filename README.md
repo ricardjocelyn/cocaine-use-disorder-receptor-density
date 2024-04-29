@@ -39,7 +39,7 @@ For usage of the ***manuscript***, please cite:
 ## data
 
 All the brain fMRI data are from the SUDMEX-CONN dataset.
-(Angeles-Valdez, Diego, et al. "The Mexican magnetic resonance imaging dataset of patients with cocaine use disorder: SUDMEX CONN." Scientific data 9.1 (2022): 133.; *n*=138). You can find more on their github repo here: https://github.com/psilantrolab/SUDMEX_CONN
+(Angeles-Valdez, Diego, et al. "The Mexican magnetic resonance imaging dataset of patients with cocaine use disorder: SUDMEX CONN." Scientific data 9.1 (2022). You can find more on their github repo here: https://github.com/psilantrolab/SUDMEX_CONN
 
 Receptor density data are from neuromaps.
 (Markello, Hensen et al., "neuromaps: structural and functional interpretation of brain maps" Nature Methods (2022). You can find more here: (https://www.nature.com/articles/s41592-022-01625-w).
