@@ -33,7 +33,7 @@ For usage of the ***manuscript***, please cite:
 ## code release
 
 
-All analyses were performed using *R version 4.1.0 (2021-05-18) and Python 3.8.8*
+All analyses were performed using *R version 4.1.0 (2021-05-18)* and *Python 3.8.8*.
 
 
 ------------------------------------------------------------------------
