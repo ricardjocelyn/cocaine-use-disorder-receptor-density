@@ -36,7 +36,9 @@ For usage of the ***manuscript***, please cite:
 All analyses were performed using *R version 4.1.0 (2021-05-18)* and *Python 3.8.8*.
 
 a) network_based_stats_schaefertian.R - returns nbs_result05_covars_SchaeferTian_230421.rds result.
+
 b) visualization_nbs_output.R - creates "degree05neg_covars" and "degree05pos_covars" and "avg_masked_Negative_covars_joce.csv" & "avg_masked_Positive_covars_joce.csv" for the nbs05 network - to plot edges (plot classified edges) and create nbs network brains. 
+
 c) receptorspins_240428.ipynb - runs neurotransmitter receptor density spearman’s ρ correlations after 10k spin test and random shuffling per hemisphere for subcortical regions against NBS output. 
 
 ------------------------------------------------------------------------
