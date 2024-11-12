@@ -32,10 +32,10 @@ show(results_05$fwe$group)
 brain_labs = c(1:432) #read.table(file = "/gpfs/milgram/project/holmes/jar293/sudmexconn/data/derivatives/mri_MNI_processed_sid/rest_TimeSerie_Volumes/SchaeferTianAtlas/corr_matrix_sch/Schaefer2018_400Parcels_17Networks_order_Tian_Subcortex_S2_label.txt", sep="\t", header=T)$nom_l 
 
 # Load phenotypic info
-phen <- read.csv("/Users/jocelynricard/Desktop/SUDMEX/sudmexconn/data/clinical data/connectome_demographics.csv")
+phen <- read.csv(".../connectome_demographics.csv")
 phen$group = as.factor(phen$group)
 
-setwd("/Users/jocelynricard/Desktop/sudmex_230823/SUDMEX/sudmexconn/data/SchaeferTian-corrmatrix/")
+setwd(".../SchaeferTian-corrmatrix/")
 path_corr = list.files(pattern = "*.csv")
 subject = as.numeric(gsub("SchaeferTianAtlassub-","",gsub("_correlation_matrix.csv","",path_corr)))
 
@@ -104,7 +104,7 @@ show(results_05$fwe$group)
 # post analysis
 # rowSums(results_05)
 # res = data.frame(roi = brain_labs, nb_edges = rowSums(results_05))
-# res = read.csv("/Users/jocelynricard/Desktop/SUDMEX/sudmexconn/SchaeferTian-corrmatrix/Schaefer400_17networks_FSLMNI_2m_TianSubCortex_S2_3T_fullBrain.csv")
+# res = read.csv(".../SchaeferTian-corrmatrix/Schaefer400_17networks_FSLMNI_2m_TianSubCortex_S2_3T_fullBrain.csv")
 
 # z-fisher transform the individuals matrices: (want to plot the avg matrix for two groups - but you need to fischer transform)
 cmx_z = cmx
@@ -156,7 +156,6 @@ pheatmap(avg_corr_masked,
          color = color,
          breaks = breaksList)
 # nicer visualization
-
 
 atlas_Yeo = read.csv("/Schaefer400_17networks_FSLMNI_2m_TianSubCortex_S2_3T_fullBrain.csv")
 
@@ -237,7 +236,7 @@ write.csv(x = degree05pos ,"degree05pos_230825.csv", row.names = FALSE)
 
 # negative and positive
 makeNetworkMatrix2(pce_neg[[3]], pce_posi[[3]]) #normalized matrix
-makeNetworkMatrix2(pce_neg[[1]], pce_posi[[1]]) #non normalized matrix (does not account) for the number of edges in each region but rather treats everything the same
+makeNetworkMatrix2(pce_neg[[1]], pce_posi[[1]]) #non normalized matrix (does not account for the number of edges in each region but rather treats everything the same).
 
 
 ## -------------------------------------------------------
